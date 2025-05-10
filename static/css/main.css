@@ -3,10 +3,12 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    background: white;
+    background: #669f39;
+    -webkit-box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
 }
 
 .header__img {
-    height: 64px;
-    width: 64px;
+    height: 80px;
+    width: 80px;
 }
