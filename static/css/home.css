@@ -1,0 +1,32 @@
+.buttony {
+  margin: 200px 0 0 575px;
+  position: fixed;
+}
+.sizee {
+  margin: 200px 0 0 150px;
+  resize: none;
+  width: 400px;
+  height: 300px;
+}
+
+.block_2 {
+  margin:  -305px 0 0 707px;
+  position: fixed;
+  resize: none;
+  width: 400px;
+  height: 300px;
+}
+
+.choice {
+  width: 400px;
+  height: 50px;
+  position: fixed;
+  margin: -380px 0 0 150px;
+}
+
+.choice_2 {
+  width: 400px;
+  height: 50px;
+  position: fixed;
+  margin: -380px 0 0 707px;
+}
