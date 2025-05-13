@@ -6,18 +6,17 @@
 
 {% block content %}
 <h1>Morsecode translator</h1>
-<a type="button" class="btn btn-success buttony" href="/func_but/">Перевести</a>
-<div><textarea  class="sizee" rows="5" cols="33"></textarea></div>
-    <select class="form-control choice" id="classSelect" name="class">
-                                          <option>English</option>
-                                          <option>Russian</option>
-                                          <option>Morsecode</option>
-                                        </select>
-        <select class="form-control choice_2" id="classSelect2" name="class">
-                                          <option>English</option>
-                                          <option>Russian</option>
-                                          <option>Morsecode</option>
-                                        </select>
+    <form action="" method="post">
+    {{ form.hidden_tag() }}
+
+    {{ form.content(class="form-control sizee") }}
+
+    {{ form.lang(class="form-control choice") }}
+
+    {{ form.trans_lang(class="form-control choice_2") }}
+
+    {{ form.submit(type="submit", class="btn btn-success buttony") }}
+</form>
 
 <div><textarea  class="block_2" rows="5" cols="33" readonly>{{text}}</textarea></div>
 

@@ -1,14 +1,22 @@
 from flask import Flask, render_template, redirect, make_response, jsonify
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-import sqlalchemy
-from language import engalf, rusalf
-from data import db_session
+from flask_restful import reqparse, abort, Api, Resource
+from data import trans_resources
+from translator import translatee
+from data import db_session, trans_api
 from data.user import User
+from data.trans import Trans
 from forms.users import RegisterForm, LoginForm
+from forms.translation import TransForm
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+api = Api(app)
+
+api.add_resource(trans_resources.TransListResource, '/api/v2/trans')
+
+api.add_resource(trans_resources.TransResource, '/api/v2/trans/<int:trans_id>')
 login_manager = LoginManager()
 login_manager.init_app(app)
 
@@ -36,20 +44,44 @@ def logout():
     return redirect("/")
 
 
+@app.route('/trans_delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def trans_delete(id):
+    db_sess = db_session.create_session()
+    news = db_sess.query(Trans).filter(Trans.id == id, Trans.user == current_user).first()
+    if news:
+        db_sess.delete(news)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
+
+
 @app.route('/main')
 @app.route('/')
 def main():
-    return render_template("main.html")
+    form = TransForm()
+    if form.validate_on_submit():
+        trans_text = translatee(form.lang.data, form.trans_lang.data, form.content.data)
+        if current_user.is_authenticated:
+            db_sess = db_session.create_session()
+            trans = Trans(
+                content=form.content.data,
+                lang=form.lang.data,
+                translation=trans_text,
+                trans_lang=form.trans_lang.data
+            )
+            db_sess.add(trans)
+            db_sess.commit()
+            return redirect('/')
+        return render_template('main.html', text=trans_text, form=form)
+
+    return render_template('main.html', form=form)
 
 
 @app.route('/history')
 def history():
     return render_template("history.html")
-
-
-@app.route('/func_but/')
-def translate():
-    return render_template('main.html')
 
 
 @app.route('/reg', methods=['GET', 'POST'])
@@ -75,7 +107,7 @@ def reqister():
     return render_template('reg.html', title='Регистрация', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST', 'PUT'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -88,7 +120,7 @@ def login():
     return render_template('log.html', title='Авторизация', form=form)
 
 
-
 if __name__ == '__main__':
     db_session.global_init("db/trans.db")
+    app.register_blueprint(trans_api.blueprint)
     app.run(port=8080, host='127.0.0.1')

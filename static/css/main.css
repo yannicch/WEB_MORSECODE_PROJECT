@@ -12,3 +12,9 @@ header {
     height: 80px;
     width: 80px;
 }
+
+.texxt {
+    font-family: Impact;
+    font-size: xxx-large;
+    margin: 200px 0 0 150px;
+}

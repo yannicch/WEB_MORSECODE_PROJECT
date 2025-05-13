@@ -14,6 +14,7 @@ class Trans(SqlAlchemyBase, UserMixin, SerializerMixin):
     content = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     translation = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     lang = sqlalchemy.Column(sqlalchemy.String, nullable=True)
+    trans_lang = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = orm.relationship('User')

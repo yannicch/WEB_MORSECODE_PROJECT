@@ -3,3 +3,24 @@
 {% block title %}
 История
 {% endblock %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+    {% for item in trans %}
+        <div class="col-md6 border rounded">
+            <h2>{{ item.title }}</h2>
+            <div>
+                {{ item.content }}
+            </div>
+            <div>
+                Юзер - {{ item.user.name }}, Дата перевода - {{ item.created_date }}
+            </div>
+                <div>
+                    <a href="/trans_delete/{{ item.id }}" class="btn btn-danger">Удалить</a>
+                </div>
+        </div>
+    {% endfor %}
+{% else %}
+<div class="texxt">История есть только у зареганных!!! РЕГАЙТЕСЬ!!!</div>
+    {% endif %}
+
+{% endblock %}
