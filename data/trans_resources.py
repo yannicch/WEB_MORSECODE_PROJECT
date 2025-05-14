@@ -35,3 +35,4 @@ class TransListResource(Resource):
         trans = session.query(Trans).all()
         return jsonify({'news': [item.to_dict(
             only=('content', 'translation', 'created_date', 'user_id')) for item in trans]})
+

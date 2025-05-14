@@ -8,3 +8,42 @@ h1 {
 h2 {
     color: white;
 }
+
+.history {
+    font-family: Copperplate Gothic;
+    font-size: xxx-large;
+    text-align: center;
+
+}
+
+.tt {
+    background: #669f39;
+}
+
+.immg {
+    margin: -210px 0 0 10px;
+    width: 300px;
+    height: 300px;
+    position: fixed;
+}
+
+.immg2 {
+    margin: -550px 0 0 -400px;
+    width: 700px;
+    height: 700px;
+    position: fixed;
+}
+
+.immg3 {
+    margin: -500px 0 0 -160px;
+    width: 600px;
+    height: 600px;
+    position: fixed;
+}
+
+.immg4 {
+    margin: -500px 0 0 1400px;
+    width: 600px;
+    height: 600px;
+    position: fixed;
+}

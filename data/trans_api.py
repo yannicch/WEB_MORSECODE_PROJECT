@@ -1,8 +1,8 @@
 import flask
 from flask import request, jsonify, make_response
-
 from . import db_session
 from .trans import Trans
+
 
 blueprint = flask.Blueprint('trans_api', __name__, template_folder='templates')
 
@@ -33,3 +33,6 @@ def delete_trans(trans_id):
     db_sess.delete(trans)
     db_sess.commit()
     return jsonify({'success': 'OK'})
+
+
+

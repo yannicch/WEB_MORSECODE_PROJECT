@@ -5,11 +5,12 @@
 {% endblock %}
 {% block content %}
     {% if current_user.is_authenticated %}
+<div class="history">My history</div>
     {% for item in trans %}
-        <div class="col-md6 border rounded">
+        <div class="col-md6 border rounded tt">
             <h2>{{ item.title }}</h2>
             <div>
-                {{ item.content }}
+                 {{ item.content }} /// {{item.translation}}
             </div>
             <div>
                 Юзер - {{ item.user.name }}, Дата перевода - {{ item.created_date }}
@@ -22,5 +23,5 @@
 {% else %}
 <div class="texxt">История есть только у зареганных!!! РЕГАЙТЕСЬ!!!</div>
     {% endif %}
-
 {% endblock %}
+

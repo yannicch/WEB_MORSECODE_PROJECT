@@ -4,7 +4,7 @@ from language import rusalf, engalf
 def translatee(con, trans, text):
     try:
         if con == 'Russian':
-            listoftext = list(text)
+            listoftext = list(text.replace('ё', 'е'))
             convertedtext = ''.join(list(map(lambda x: rusalf.get(x.lower()) + ' ', listoftext)))
             return convertedtext
         elif con == 'English':

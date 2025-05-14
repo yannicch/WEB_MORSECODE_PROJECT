@@ -48,13 +48,13 @@ def logout():
 @login_required
 def trans_delete(id):
     db_sess = db_session.create_session()
-    news = db_sess.query(Trans).filter(Trans.id == id, Trans.user == current_user).first()
-    if news:
-        db_sess.delete(news)
+    trans = db_sess.query(Trans).filter(Trans.id == id, Trans.user == current_user).first()
+    if trans:
+        db_sess.delete(trans)
         db_sess.commit()
     else:
         abort(404)
-    return redirect('/')
+    return redirect('/history')
 
 
 @app.route('/main', methods=["GET", "POST"])
@@ -67,25 +67,42 @@ def main():
         form.trans_lang.choices = [('Morsecode', 'Morsecode')]
     if form.validate_on_submit():
         trans_text = translatee(form.lang.data, form.trans_lang.data, form.content.data)
-        if current_user.is_authenticated:
+        if current_user.is_authenticated and trans_text is not None:
             db_sess = db_session.create_session()
             trans = Trans(
                 content=form.content.data,
                 lang=form.lang.data,
                 translation=trans_text,
-
-                trans_lang=form.trans_lang.data
+                trans_lang=form.trans_lang.data,
+                user_id=current_user.id
             )
             db_sess.add(trans)
             db_sess.commit()
-        return render_template('main.html', text=trans_text, form=form)
+        if trans_text is not None:
+            return render_template('main.html', text=trans_text, form=form)
+        else:
+            return render_template('main.html', text='Неправильный формат ввода', form=form)
 
     return render_template('main.html', form=form)
 
 
 @app.route('/history')
 def history():
-    return render_template("history.html")
+    db_sess = db_session.create_session()
+    if current_user.is_authenticated:
+        trans = db_sess.query(Trans).filter(Trans.user == current_user)
+        return render_template("history.html", trans=trans)
+    else:
+        return render_template("history.html")
+
+
+@app.route('/about')
+def about():
+    return render_template("about.html")
+
+@app.route('/facilities')
+def facilities():
+    return render_template("facilities.html")
 
 
 @app.route('/reg', methods=['GET', 'POST'])
