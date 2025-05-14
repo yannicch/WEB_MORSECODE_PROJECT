@@ -131,7 +131,7 @@ def reqister():
 @app.route('/login', methods=['GET', 'POST', 'PUT'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
+    if form.validate_on_submit ():
         db_sess = db_session.create_session()
         user = db_sess.query(User).filter(User.email == form.email.data).first()
         if user and user.check_password(form.password.data):
