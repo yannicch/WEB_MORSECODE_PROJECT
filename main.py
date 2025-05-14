@@ -57,8 +57,8 @@ def trans_delete(id):
     return redirect('/')
 
 
-@app.route('/main')
-@app.route('/')
+@app.route('/main', methods=["GET", "POST"])
+@app.route('/', methods=["GET", "POST"])
 def main():
     form = TransForm()
     if form.validate_on_submit():
@@ -73,7 +73,6 @@ def main():
             )
             db_sess.add(trans)
             db_sess.commit()
-            return redirect('/')
         return render_template('main.html', text=trans_text, form=form)
 
     return render_template('main.html', form=form)
