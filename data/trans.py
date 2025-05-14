@@ -18,3 +18,6 @@ class Trans(SqlAlchemyBase, UserMixin, SerializerMixin):
     created_date = sqlalchemy.Column(sqlalchemy.DateTime, default=datetime.datetime.now)
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     user = orm.relationship('User')
+
+    def __repr__(self):
+        return f'<User> {self.id} {self.content} {self.created_date}'

@@ -61,6 +61,10 @@ def trans_delete(id):
 @app.route('/', methods=["GET", "POST"])
 def main():
     form = TransForm()
+    if form.lang.data == 'Morsecode':
+        form.trans_lang.choices = [('English', 'English'), ('Russian', 'Russian')]
+    else:
+        form.trans_lang.choices = [('Morsecode', 'Morsecode')]
     if form.validate_on_submit():
         trans_text = translatee(form.lang.data, form.trans_lang.data, form.content.data)
         if current_user.is_authenticated:
@@ -69,6 +73,7 @@ def main():
                 content=form.content.data,
                 lang=form.lang.data,
                 translation=trans_text,
+
                 trans_lang=form.trans_lang.data
             )
             db_sess.add(trans)
